@@ -1,0 +1,3 @@
+org/cytoscape/LargestConnected/CreateNetworkViewTaskFactory.class
+org/cytoscape/LargestConnected/CreateNetworkViewTask.class
+org/cytoscape/LargestConnected/CyActivator.class

@@ -28,11 +28,11 @@ public class CyActivator extends AbstractCyActivator {
 		CyNetworkViewFactory cyNetworkViewFactoryServiceRef = getService(bc,CyNetworkViewFactory.class);
 		CyNetworkViewManager cyNetworkViewManagerServiceRef = getService(bc,CyNetworkViewManager.class);
 
-		CreateNetworkViewTaskFactory createNetworkViewTaskFactory = new CreateNetworkViewTaskFactory(cyNetworkNamingServiceRef, cyNetworkFactoryServiceRef,cyNetworkManagerServiceRef, cyNetworkViewFactoryServiceRef,cyNetworkViewManagerServiceRef);
+		LargestConnectedTaskFactory largestConnectedTaskFactory = new LargestConnectedTaskFactory(cyNetworkNamingServiceRef, cyNetworkFactoryServiceRef,cyNetworkManagerServiceRef, cyNetworkViewFactoryServiceRef,cyNetworkViewManagerServiceRef);
 
-		Properties createNetworkViewTaskFactoryProps = new Properties();
-		createNetworkViewTaskFactoryProps.setProperty("preferredMenu","Apps.LargestConnected ");
-		createNetworkViewTaskFactoryProps.setProperty("title","Select Largest Connected Subnetwork");
-		registerService(bc,createNetworkViewTaskFactory,TaskFactory.class, createNetworkViewTaskFactoryProps);
+		Properties largestConnectedTaskFactoryProps = new Properties();
+		largestConnectedTaskFactoryProps.setProperty("preferredMenu","Apps.LargestConnected ");
+		largestConnectedTaskFactoryProps.setProperty("title","Select Largest Connected Subnetwork");
+		registerService(bc,largestConnectedTaskFactory,TaskFactory.class, largestConnectedTaskFactoryProps);
 	}
 }

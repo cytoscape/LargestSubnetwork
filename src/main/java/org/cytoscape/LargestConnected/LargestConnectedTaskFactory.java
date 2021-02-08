@@ -8,7 +8,7 @@ import org.cytoscape.view.model.CyNetworkViewManager;
 import org.cytoscape.work.AbstractTaskFactory;
 import org.cytoscape.work.TaskIterator;
 
-public class CreateNetworkViewTaskFactory extends AbstractTaskFactory {
+public class LargestConnectedTaskFactory extends AbstractTaskFactory {
 
 	private final CyNetworkFactory cnf;
 	private final CyNetworkViewFactory cnvf;
@@ -16,7 +16,7 @@ public class CreateNetworkViewTaskFactory extends AbstractTaskFactory {
 	private final CyNetworkManager networkManager;
 	private final CyNetworkNaming cyNetworkNaming;
 
-	public CreateNetworkViewTaskFactory(CyNetworkNaming cyNetworkNaming, CyNetworkFactory cnf, CyNetworkManager networkManager, CyNetworkViewFactory cnvf,
+	public LargestConnectedTaskFactory(CyNetworkNaming cyNetworkNaming, CyNetworkFactory cnf, CyNetworkManager networkManager, CyNetworkViewFactory cnvf,
 			 final CyNetworkViewManager networkViewManager){
 
 		this.cnf = cnf;
@@ -28,6 +28,6 @@ public class CreateNetworkViewTaskFactory extends AbstractTaskFactory {
 	}
 
 	public TaskIterator createTaskIterator(){
-		return new TaskIterator(new CreateNetworkViewTask(cyNetworkNaming, cnf,networkManager, cnvf, networkViewManager));
+		return new TaskIterator(new LargestConnectedTask(cyNetworkNaming, cnf,networkManager, cnvf, networkViewManager));
 	}
 }

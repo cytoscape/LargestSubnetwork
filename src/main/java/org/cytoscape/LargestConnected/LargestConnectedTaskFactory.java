@@ -1,33 +1,27 @@
 package org.cytoscape.LargestConnected;
 
-import org.cytoscape.model.CyNetworkFactory;
-import org.cytoscape.model.CyNetworkManager;
-import org.cytoscape.session.CyNetworkNaming;
-import org.cytoscape.view.model.CyNetworkViewFactory;
-import org.cytoscape.view.model.CyNetworkViewManager;
-import org.cytoscape.work.AbstractTaskFactory;
+import org.cytoscape.task.NetworkViewTaskFactory;
+import org.cytoscape.view.layout.CyLayoutAlgorithm;
+import org.cytoscape.view.layout.CyLayoutAlgorithmManager;
+import org.cytoscape.view.model.CyNetworkView;
 import org.cytoscape.work.TaskIterator;
 
-public class LargestConnectedTaskFactory extends AbstractTaskFactory {
 
-	private final CyNetworkFactory cnf;
-	private final CyNetworkViewFactory cnvf;
-	private final CyNetworkViewManager networkViewManager;
-	private final CyNetworkManager networkManager;
-	private final CyNetworkNaming cyNetworkNaming;
+public class LargestConnectedTaskFactory implements NetworkViewTaskFactory {
+	private CyLayoutAlgorithmManager layoutManager;
 
-	public LargestConnectedTaskFactory(CyNetworkNaming cyNetworkNaming, CyNetworkFactory cnf, CyNetworkManager networkManager, CyNetworkViewFactory cnvf,
-			 final CyNetworkViewManager networkViewManager){
-
-		this.cnf = cnf;
-		this.cnvf = cnvf;
-		this.networkViewManager = networkViewManager;
-		this.networkManager = networkManager;
-		this.cyNetworkNaming = cyNetworkNaming;
-
+	public LargestConnectedTaskFactory(CyLayoutAlgorithmManager layoutManager) {
+		this.layoutManager = layoutManager;
 	}
 
-	public TaskIterator createTaskIterator(){
-		return new TaskIterator(new LargestConnectedTask(cyNetworkNaming, cnf,networkManager, cnvf, networkViewManager));
+	public TaskIterator createTaskIterator(CyNetworkView view) {
+		CyLayoutAlgorithm layout = layoutManager.getLayout("force-directed");
+		Object context = layout.createLayoutContext();
+		String layoutAttribute = null;
+		return layout.createTaskIterator(view, context, CyLayoutAlgorithm.ALL_NODE_VIEWS, layoutAttribute);
 	}
+
+	public boolean isReady(CyNetworkView view) {
+		return view != null;
+	};
 }

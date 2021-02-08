@@ -88,6 +88,16 @@
 		</dependency>
 		<dependency>
 			<groupId>org.cytoscape</groupId>
+			<artifactId>viewmodel-api</artifactId>
+			<version>${cytoscape.api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.cytoscape</groupId>
+			<artifactId>layout-api</artifactId>
+			<version>${cytoscape.api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.cytoscape</groupId>
 			<artifactId>work-api</artifactId>
 			<version>${cytoscape.api.version}</version>
 		</dependency>

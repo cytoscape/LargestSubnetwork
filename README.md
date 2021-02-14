@@ -1,1 +1,2 @@
-# LargestConnected
+# LargestConnectedComponent App for Cytoscape
+

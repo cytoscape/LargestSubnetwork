@@ -3,8 +3,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<properties>
-		<bundle.symbolicName>org.cytoscape.LargestConnected</bundle.symbolicName>
-		<bundle.namespace>org.cytoscape.LargestConnected</bundle.namespace>
+		<bundle.symbolicName>org.cytoscape.LargestConnectedComponent</bundle.symbolicName>
+		<bundle.namespace>org.cytoscape.LargestConnectedComponent</bundle.namespace>
 		<cytoscape.api.version>3.0.0</cytoscape.api.version>
 
 		<maven-bundle-plugin.version>2.3.4</maven-bundle-plugin.version>
@@ -12,7 +12,7 @@
 	</properties>
 
 	<groupId>org.cytoscape</groupId>
-	<artifactId>LargestConnected</artifactId>
+	<artifactId>LargestConnectedComponent</artifactId>
 	<packaging>bundle</packaging>
 	<version>1.0</version>
 
@@ -51,8 +51,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.0</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.8</source>
+					<target>1.8</target>
 					<optimize>true</optimize>
 					<showWarnings>true</showWarnings>
 					<showDeprecation>true</showDeprecation>

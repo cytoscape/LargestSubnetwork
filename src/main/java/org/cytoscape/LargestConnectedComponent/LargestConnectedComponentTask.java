@@ -1,31 +1,36 @@
 package org.cytoscape.LargestConnectedComponent;
 
+import java.util.List;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
-import static org.cytoscape.view.presentation.property.BasicVisualLexicon.NETWORK_SCALE_FACTOR;
 import org.cytoscape.task.AbstractNetworkViewTask;
 import org.cytoscape.view.model.CyNetworkView;
 import org.cytoscape.work.TaskMonitor;
-import org.cytoscape.work.Tunable;
+import org.cytoscape.view.layout.PartitionUtil;
+import org.cytoscape.view.layout.LayoutPartition;
+
+
 
 
 public class LargestConnectedComponentTask extends AbstractNetworkViewTask {
-
-	@Tunable(description="Scale")
-	public double scale = 0.2; // Default value
+	protected List <LayoutPartition> partitionList = null;
+	protected double current_size = 0;
+	protected ArrayList<Double> partlist = new ArrayList<>();
 
 	LargestConnectedComponentTask(CyNetworkView v) {
 		super(v);
 	}
 
 	public void run(TaskMonitor tm) {
-
 		if(this.view == null){
 			return;
 		}
-
-		double newScale = view.getVisualProperty(NETWORK_SCALE_FACTOR).doubleValue() * scale;
-		view.setVisualProperty(NETWORK_SCALE_FACTOR, newScale);
-
-		view.updateView();
+		partitionList = PartitionUtil.partition(this.view, false, null);
+		for (LayoutPartition partition: partitionList) {
+				current_size = (double)partition.size();
+				partlist.add(current_size);
+		}
+		JOptionPane.showMessageDialog(null, "Number of selected nodes are "+partlist);
 	}
 }

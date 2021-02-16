@@ -13,6 +13,8 @@ import org.cytoscape.view.model.CyNetworkView;
 import org.cytoscape.work.TaskMonitor;
 import org.cytoscape.view.layout.PartitionUtil;
 import org.cytoscape.view.layout.LayoutPartition;
+import org.cytoscape.view.layout.LayoutNode;
+import org.cytoscape.model.CyNode;
 
 
 
@@ -20,6 +22,10 @@ public class LargestConnectedComponentTask extends AbstractTask {
 	protected List <LayoutPartition> partitionList = null;
 	protected double current_size = 0;
 	private CyNetworkView view;
+	private List<LayoutNode> l;
+	private LayoutNode trans;
+	private List<LayoutNode> res;
+	private CyNode nodex;
 	protected ArrayList<Double> partlist = new ArrayList<>();
 	private void ShowMessage(String message) {
     EventQueue.invokeLater(new Runnable() {
@@ -42,8 +48,11 @@ public class LargestConnectedComponentTask extends AbstractTask {
 		for (LayoutPartition partition: partitionList) {
 				current_size = (double)partition.size();
 				partlist.add(current_size);
+				l = partition.getNodeList();
+				trans = l.get(0);
+				nodex = trans.getNode();
 				Collections.sort(partlist, Collections.reverseOrder());
 		}
-		ShowMessage("Number of selected nodes are "+partlist);
+		ShowMessage("Number of selected nodes are "+nodex);
 	}
 }

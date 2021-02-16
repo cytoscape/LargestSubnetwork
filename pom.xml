@@ -5,7 +5,7 @@
 	<properties>
 		<bundle.symbolicName>org.cytoscape.LargestConnectedComponent</bundle.symbolicName>
 		<bundle.namespace>org.cytoscape.LargestConnectedComponent</bundle.namespace>
-		<cytoscape.api.version>3.0.0</cytoscape.api.version>
+		<cytoscape.api.version>3.8.0</cytoscape.api.version>
 
 		<maven-bundle-plugin.version>2.3.4</maven-bundle-plugin.version>
 		<osgi.api.version>4.2.0</osgi.api.version>
@@ -104,6 +104,11 @@
 		<dependency>
 			<groupId>org.cytoscape</groupId>
 			<artifactId>service-api</artifactId>
+			<version>${cytoscape.api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.cytoscape</groupId>
+			<artifactId>swing-util-api</artifactId>
 			<version>${cytoscape.api.version}</version>
 		</dependency>
 		<dependency>

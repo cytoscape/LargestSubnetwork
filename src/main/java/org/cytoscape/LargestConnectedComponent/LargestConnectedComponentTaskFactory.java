@@ -7,7 +7,7 @@ import org.cytoscape.work.TaskIterator;
 
 public class LargestConnectedComponentTaskFactory extends AbstractNetworkViewTaskFactory {
 
-	public TaskIterator createTaskIterator(CyNetworkView view) {
-		return new TaskIterator(new LargestConnectedComponentTask(view));
+	public TaskIterator createTaskIterator(CyNetworkView networkView) {
+		return new TaskIterator(new LargestConnectedComponentTask(networkView));
 	}
 }

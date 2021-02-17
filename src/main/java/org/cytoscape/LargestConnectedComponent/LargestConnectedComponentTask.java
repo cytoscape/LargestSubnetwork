@@ -6,6 +6,9 @@ import javax.swing.JOptionPane;
 import java.util.Collections;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import java.util.Collection;
+import java.util.Comparator;
+
 
 
 import org.cytoscape.work.AbstractTask;
@@ -15,6 +18,9 @@ import org.cytoscape.view.layout.PartitionUtil;
 import org.cytoscape.view.layout.LayoutPartition;
 import org.cytoscape.view.layout.LayoutNode;
 import org.cytoscape.model.CyNode;
+import org.cytoscape.model.CyNetwork;
+import org.cytoscape.filter.internal.filters.util.SelectUtil;
+import org.cytoscape.application.CyApplicationManager;
 
 
 
@@ -22,10 +28,13 @@ public class LargestConnectedComponentTask extends AbstractTask {
 	protected List <LayoutPartition> partitionList = null;
 	protected double current_size = 0;
 	private CyNetworkView view;
-	private List<LayoutNode> l;
+	private List<LayoutNode> layoutNodeList = new ArrayList<>();;
+	private List<LayoutNode> largestNodeList = new ArrayList<>();;
 	private LayoutNode trans;
-	private List<LayoutNode> res;
-	private CyNode nodex;
+	private CyApplicationManager applicationManager;
+	private List<CyNode> res = new ArrayList<>();;
+	private CyNode eachNode;
+	private CyNode testNode;
 	protected ArrayList<Double> partlist = new ArrayList<>();
 	private void ShowMessage(String message) {
     EventQueue.invokeLater(new Runnable() {
@@ -44,15 +53,18 @@ public class LargestConnectedComponentTask extends AbstractTask {
 		if(view == null){
 			return;
 		}
+		List<List<LayoutNode>> nestedList = new ArrayList<>();
 		partitionList = PartitionUtil.partition(view, false, null);
 		for (LayoutPartition partition: partitionList) {
-				current_size = (double)partition.size();
-				partlist.add(current_size);
-				l = partition.getNodeList();
-				trans = l.get(0);
-				nodex = trans.getNode();
-				Collections.sort(partlist, Collections.reverseOrder());
+				layoutNodeList = partition.getNodeList();
+				nestedList.add(layoutNodeList);
 		}
-		ShowMessage("Number of selected nodes are "+nodex);
+		largestNodeList = nestedList.get(0);
+		for (LayoutNode layoutNode: largestNodeList) {
+			eachNode = layoutNode.getNode();
+			res.add(eachNode);
+		}
+		int resSize = res.size();
+		ShowMessage("The largest connected component has " + resSize + " nodes");
 	}
 }

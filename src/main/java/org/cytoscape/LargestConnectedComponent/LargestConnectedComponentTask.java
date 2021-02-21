@@ -21,18 +21,22 @@ import org.cytoscape.model.CyNode;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.filter.internal.filters.util.SelectUtil;
 import org.cytoscape.application.CyApplicationManager;
+import org.cytoscape.model.CyTableUtil;
+import org.cytoscape.model.CyRow;
+import org.cytoscape.model.CyIdentifiable;
 
 
 
 public class LargestConnectedComponentTask extends AbstractTask {
 
 	protected List <LayoutPartition> partitionList = null;
-	private CyNetworkView view;
-	private CyNetwork network;
+	private final CyNetworkView view;
+	private final CyNetwork network;
 	private List<LayoutNode> layoutNodeList = new ArrayList<>();
 	private List<LayoutNode> largestNodeList = new ArrayList<>();
 	private CyApplicationManager applicationManager;
-	private List<CyNode> res = new ArrayList<>();;
+	private List<CyNode> res = new ArrayList<>();
+	private List<CyNode> nodes = new ArrayList<>();
 	private CyNode eachNode;
 	private CyNode testNode;
 	protected ArrayList<Double> partlist = new ArrayList<>();
@@ -46,6 +50,14 @@ public class LargestConnectedComponentTask extends AbstractTask {
     });
 }
 
+static void setSelectedState(CyNetwork network, Collection<? extends CyIdentifiable> list, Boolean selected) {
+		for (CyIdentifiable edge : list) {
+			CyRow row = network.getRow(edge);
+			row.set(CyNetwork.SELECTED, selected);
+		}
+
+	}
+
 	public LargestConnectedComponentTask(CyNetworkView view, CyNetwork network) {
 		this.view = view;
 		this.network = network;
@@ -55,6 +67,7 @@ public class LargestConnectedComponentTask extends AbstractTask {
 		if(view == null){
 			return;
 		}
+		setSelectedState(network, CyTableUtil.getNodesInState(network, CyNetwork.SELECTED, true), false);
 		List<List<LayoutNode>> nestedList = new ArrayList<>();
 		partitionList = PartitionUtil.partition(view, false, null);
 		for (LayoutPartition partition: partitionList) {
@@ -73,6 +86,7 @@ public class LargestConnectedComponentTask extends AbstractTask {
 		}
 		int resSize = res.size();
 		testNode = res.get(2);
+		setSelectedState(network, res, true);
 		ShowMessage("The largest connected component has " + resSize + " nodes");
 	}
 }

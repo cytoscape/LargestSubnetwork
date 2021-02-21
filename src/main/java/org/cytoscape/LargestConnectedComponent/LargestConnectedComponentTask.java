@@ -25,8 +25,10 @@ import org.cytoscape.application.CyApplicationManager;
 
 
 public class LargestConnectedComponentTask extends AbstractTask {
+
 	protected List <LayoutPartition> partitionList = null;
 	private CyNetworkView view;
+	private CyNetwork network;
 	private List<LayoutNode> layoutNodeList = new ArrayList<>();
 	private List<LayoutNode> largestNodeList = new ArrayList<>();
 	private CyApplicationManager applicationManager;
@@ -34,6 +36,7 @@ public class LargestConnectedComponentTask extends AbstractTask {
 	private CyNode eachNode;
 	private CyNode testNode;
 	protected ArrayList<Double> partlist = new ArrayList<>();
+
 	private void ShowMessage(String message) {
     EventQueue.invokeLater(new Runnable() {
         @Override
@@ -43,8 +46,9 @@ public class LargestConnectedComponentTask extends AbstractTask {
     });
 }
 
-	public LargestConnectedComponentTask(CyNetworkView view) {
+	public LargestConnectedComponentTask(CyNetworkView view, CyNetwork network) {
 		this.view = view;
+		this.network = network;
 	}
 
 	public void run(TaskMonitor tm) {
@@ -68,6 +72,7 @@ public class LargestConnectedComponentTask extends AbstractTask {
 			res.add(eachNode);
 		}
 		int resSize = res.size();
+		testNode = res.get(2);
 		ShowMessage("The largest connected component has " + resSize + " nodes");
 	}
 }

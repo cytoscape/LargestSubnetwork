@@ -4,7 +4,9 @@ import org.cytoscape.LargestConnectedComponent.LargestConnectedComponentTaskFact
 import org.osgi.framework.BundleContext;
 
 import org.cytoscape.service.util.AbstractCyActivator;
-import org.cytoscape.task.NetworkViewTaskFactory;
+import org.cytoscape.work.AbstractTaskFactory;
+import org.cytoscape.work.TaskFactory;
+import org.cytoscape.application.CyApplicationManager;
 
 import java.util.Properties;
 
@@ -17,10 +19,11 @@ public class CyActivator extends AbstractCyActivator {
 
 
 	public void start(BundleContext bc) {
-		LargestConnectedComponentTaskFactory largestConnectedComponentTaskFactory = new LargestConnectedComponentTaskFactory();
+		final CyApplicationManager applicationManager = getService(bc, CyApplicationManager.class);
+		LargestConnectedComponentTaskFactory largestConnectedComponentTaskFactory = new LargestConnectedComponentTaskFactory(applicationManager);
 		Properties largestConnectedComponentTaskFactoryProps = new Properties();
 		largestConnectedComponentTaskFactoryProps.setProperty("preferredMenu","Apps.LargestConnectedComponent");
 		largestConnectedComponentTaskFactoryProps.setProperty("title","Select Largest Connected Component");
-		registerService(bc,largestConnectedComponentTaskFactory,NetworkViewTaskFactory.class, largestConnectedComponentTaskFactoryProps);
+		registerService(bc,largestConnectedComponentTaskFactory, TaskFactory.class, largestConnectedComponentTaskFactoryProps);
 	}
 }

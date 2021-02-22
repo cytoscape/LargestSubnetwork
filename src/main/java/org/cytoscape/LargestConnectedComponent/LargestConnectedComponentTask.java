@@ -20,7 +20,6 @@ import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyTableUtil;
 import org.cytoscape.model.CyRow;
 import org.cytoscape.model.CyIdentifiable;
-import org.cytoscape.util.swing.MessageDialogs;
 
 
 public class LargestConnectedComponentTask extends AbstractTask {
@@ -90,14 +89,6 @@ public class LargestConnectedComponentTask extends AbstractTask {
 		// Select the largest connected component
 		setSelectedState(network, res, true);
 		// Warn users if we have multiple largest components
-		if (largestSize == secondSize){
-		Thread t = new Thread(new Runnable(){
-			public void run(){
-				JFrame parent = swingApplication.getJFrame();
-				MessageDialogs.showMessageDialog(parent, "Warning", "The largest connected component is not unique. Randomly select one of them.");
-				}
-			});
-		t.start();
-		}
+
 	}
 }

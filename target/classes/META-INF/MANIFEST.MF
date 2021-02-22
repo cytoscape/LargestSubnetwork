@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Created-By: Apache Maven Bundle Plugin
 Tool: Bnd-1.15.0
-Bnd-LastModified: 1613970723623
+Bnd-LastModified: 1614037800772
 Import-Package: javax.swing,org.cytoscape.application;version="[3.9,4)",
  org.cytoscape.application.swing;version="[3.9,4)",org.cytoscape.model;v
  ersion="[3.9,4)",org.cytoscape.service.util;version="[3.9,4)",org.cytos

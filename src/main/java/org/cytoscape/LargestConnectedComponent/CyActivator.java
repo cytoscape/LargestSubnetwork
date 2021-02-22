@@ -20,7 +20,7 @@ public class CyActivator extends AbstractCyActivator {
 		final CySwingApplication swingApplication = getService(bc, CySwingApplication.class);
 		LargestConnectedComponentTaskFactory largestConnectedComponentTaskFactory = new LargestConnectedComponentTaskFactory(applicationManager, swingApplication);
 		Properties largestConnectedComponentTaskFactoryProps = new Properties();
-		largestConnectedComponentTaskFactoryProps.setProperty("preferredMenu","Apps.LargestConnectedComponent");
+		largestConnectedComponentTaskFactoryProps.setProperty("preferredMenu","Select.Nodes");
 		largestConnectedComponentTaskFactoryProps.setProperty("title","Select Largest Connected Component");
 		registerService(bc, largestConnectedComponentTaskFactory, TaskFactory.class, largestConnectedComponentTaskFactoryProps);
 	}

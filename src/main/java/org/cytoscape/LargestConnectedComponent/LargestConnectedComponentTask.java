@@ -70,7 +70,7 @@ public class LargestConnectedComponentTask extends AbstractTask {
 		}
 		// Sort the nested list and find the largest partition list
 		Collections.sort(nestedList, new Comparator<List<LayoutNode>>(){
-    public int compare(List<LayoutNode> a1, List<LayoutNode> a2) {
+    	public int compare(List<LayoutNode> a1, List<LayoutNode> a2) {
         return a2.size() - a1.size();
     	}
 		});

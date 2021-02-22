@@ -2,14 +2,13 @@ package org.cytoscape.LargestConnectedComponent;
 
 import java.util.List;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import java.util.Collections;
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.util.Collection;
 import java.util.Comparator;
 
 import org.cytoscape.application.CyApplicationManager;
+import org.cytoscape.application.swing.CySwingApplication;
 import org.cytoscape.work.TaskMonitor;
 import org.cytoscape.work.AbstractTask;
 import org.cytoscape.view.model.CyNetworkView;
@@ -21,29 +20,24 @@ import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyTableUtil;
 import org.cytoscape.model.CyRow;
 import org.cytoscape.model.CyIdentifiable;
+import org.cytoscape.util.swing.MessageDialogs;
 
 
 public class LargestConnectedComponentTask extends AbstractTask {
 
+	private CyApplicationManager applicationManager;
+	private CySwingApplication swingApplication;
+	private CyNetworkView view;
+	private CyNetwork network;
 	protected List <LayoutPartition> partitionList = null;
-	private final CyNetworkView view;
-	private final CyNetwork network;
 	private List<LayoutNode> layoutNodeList = new ArrayList<>();
+	private List<LayoutNode> secondLargestNodeList = new ArrayList<>();
 	private List<LayoutNode> largestNodeList = new ArrayList<>();
 	protected ArrayList<Double> partlist = new ArrayList<>();
-	private CyApplicationManager applicationManager;
 	private List<CyNode> res = new ArrayList<>();
 	private List<CyNode> nodes = new ArrayList<>();
 	private CyNode eachNode;
 
-	private void ShowMessage(String message) {
-    EventQueue.invokeLater(new Runnable() {
-        @Override
-        public void run() {
-            JOptionPane.showMessageDialog(null, message);
-        }
-    });
-}
 
 	// Method from Cytoscape Filters Impl (filter-impl)
 	static void setSelectedState(CyNetwork network, Collection<? extends CyIdentifiable> list, Boolean selected) {
@@ -53,9 +47,10 @@ public class LargestConnectedComponentTask extends AbstractTask {
 		}
 	}
 
-	public LargestConnectedComponentTask(CyNetworkView view, CyNetwork network) {
+	public LargestConnectedComponentTask(CyNetworkView view, CyNetwork network, CySwingApplication swingApplication) {
 		this.view = view;
 		this.network = network;
+		this.swingApplication = swingApplication;
 	}
 
 	public void run(TaskMonitor tm) {
@@ -81,14 +76,28 @@ public class LargestConnectedComponentTask extends AbstractTask {
 		});
 		// Get the largest partition
 		largestNodeList = nestedList.get(0);
+		// Get the second largest partition
+		secondLargestNodeList = nestedList.get(1);
+		// Get the largest partition size
+		int largestSize = largestNodeList.size();
+		// Get the second largest partition size
+		int secondSize = secondLargestNodeList.size();
 		// Turn layoutNode into CyNode
 		for (LayoutNode layoutNode: largestNodeList) {
 			eachNode = layoutNode.getNode();
 			res.add(eachNode);
 		}
-		int resSize = res.size();
 		// Select the largest connected component
 		setSelectedState(network, res, true);
-		ShowMessage("The largest connected component has " + resSize + " nodes");
+		// Warn users if we have multiple largest components
+		if (largestSize == secondSize){
+		Thread t = new Thread(new Runnable(){
+			public void run(){
+				JFrame parent = swingApplication.getJFrame();
+				MessageDialogs.showMessageDialog(parent, "Warning", "The largest connected component is not unique. Randomly select one of them.");
+				}
+			});
+		t.start();
+		}
 	}
 }

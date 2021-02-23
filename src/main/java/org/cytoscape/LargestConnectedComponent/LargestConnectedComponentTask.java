@@ -20,6 +20,7 @@ import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyTableUtil;
 import org.cytoscape.model.CyRow;
 import org.cytoscape.model.CyIdentifiable;
+import static org.cytoscape.work.TaskMonitor.Level.*;
 
 
 public class LargestConnectedComponentTask extends AbstractTask {
@@ -36,26 +37,24 @@ public class LargestConnectedComponentTask extends AbstractTask {
 	private List<CyNode> res = new ArrayList<>();
 	private List<CyNode> nodes = new ArrayList<>();
 	private CyNode eachNode;
-
-
 	// Method from Cytoscape Filters Impl (filter-impl)
 	static void setSelectedState(CyNetwork network, Collection<? extends CyIdentifiable> list, Boolean selected) {
-		for (CyIdentifiable edge : list) {
-			CyRow row = network.getRow(edge);
-			row.set(CyNetwork.SELECTED, selected);
-		}
+			for (CyIdentifiable edge : list) {
+				CyRow row = network.getRow(edge);
+				row.set(CyNetwork.SELECTED, selected);
+			}
 	}
 
 	public LargestConnectedComponentTask(CyNetworkView view, CyNetwork network, CySwingApplication swingApplication) {
-		this.view = view;
-		this.network = network;
-		this.swingApplication = swingApplication;
+			this.view = view;
+			this.network = network;
+			this.swingApplication = swingApplication;
 	}
 
 	public void run(TaskMonitor tm) {
-		if(view == null){
-			return;
-		}
+			if(view == null){
+					return;
+				}
 		// Clear previous selections of nodes and edges
 		setSelectedState(network, CyTableUtil.getNodesInState(network, CyNetwork.SELECTED, true), false);
 		setSelectedState(network, CyTableUtil.getEdgesInState(network, CyNetwork.SELECTED, true), false);
@@ -69,8 +68,8 @@ public class LargestConnectedComponentTask extends AbstractTask {
 		}
 		// Sort the nested list and find the largest partition list
 		Collections.sort(nestedList, new Comparator<List<LayoutNode>>(){
-    	public int compare(List<LayoutNode> a1, List<LayoutNode> a2) {
-        return a2.size() - a1.size();
+    		public int compare(List<LayoutNode> a1, List<LayoutNode> a2) {
+        	return a2.size() - a1.size();
     		}
 			});
 		// Get the largest partition
@@ -83,12 +82,15 @@ public class LargestConnectedComponentTask extends AbstractTask {
 		int secondSize = secondLargestNodeList.size();
 		// Turn layoutNode into CyNode
 		for (LayoutNode layoutNode: largestNodeList) {
-			eachNode = layoutNode.getNode();
-			res.add(eachNode);
+				eachNode = layoutNode.getNode();
+				res.add(eachNode);
 		}
 		// Select the largest connected component
 		setSelectedState(network, res, true);
 		// Warn users if we have multiple largest components
-
+		if(largestSize == secondSize){
+				tm.setTitle("Warning");
+				tm.showMessage(INFO, "The largest connected component is not unique. Randomly select one of them.");
+		}
 	}
 }

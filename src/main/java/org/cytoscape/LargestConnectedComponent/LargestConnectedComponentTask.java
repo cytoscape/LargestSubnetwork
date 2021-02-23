@@ -20,7 +20,7 @@ import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyTableUtil;
 import org.cytoscape.model.CyRow;
 import org.cytoscape.model.CyIdentifiable;
-import static org.cytoscape.work.TaskMonitor.Level. * ;
+import static org.cytoscape.work.TaskMonitor.Level.* ;
 
 public class LargestConnectedComponentTask extends AbstractTask {
 

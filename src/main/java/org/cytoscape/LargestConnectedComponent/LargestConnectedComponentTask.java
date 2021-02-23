@@ -20,77 +20,76 @@ import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyTableUtil;
 import org.cytoscape.model.CyRow;
 import org.cytoscape.model.CyIdentifiable;
-import static org.cytoscape.work.TaskMonitor.Level.*;
-
+import static org.cytoscape.work.TaskMonitor.Level. * ;
 
 public class LargestConnectedComponentTask extends AbstractTask {
 
-	private CyApplicationManager applicationManager;
-	private CySwingApplication swingApplication;
-	private CyNetworkView view;
-	private CyNetwork network;
-	protected List <LayoutPartition> partitionList = null;
-	private List<LayoutNode> layoutNodeList = new ArrayList<>();
-	private List<LayoutNode> secondLargestNodeList = new ArrayList<>();
-	private List<LayoutNode> largestNodeList = new ArrayList<>();
-	protected ArrayList<Double> partlist = new ArrayList<>();
-	private List<CyNode> res = new ArrayList<>();
-	private List<CyNode> nodes = new ArrayList<>();
-	private CyNode eachNode;
-	// Method from Cytoscape Filters Impl (filter-impl)
-	static void setSelectedState(CyNetwork network, Collection<? extends CyIdentifiable> list, Boolean selected) {
-			for (CyIdentifiable edge : list) {
-				CyRow row = network.getRow(edge);
-				row.set(CyNetwork.SELECTED, selected);
-			}
-	}
+  private CyApplicationManager applicationManager;
+  private CySwingApplication swingApplication;
+  private CyNetworkView view;
+  private CyNetwork network;
+  protected List < LayoutPartition > partitionList = null;
+  private List < LayoutNode > layoutNodeList = new ArrayList < >();
+  private List < LayoutNode > secondLargestNodeList = new ArrayList < >();
+  private List < LayoutNode > largestNodeList = new ArrayList < >();
+  protected ArrayList < Double > partlist = new ArrayList < >();
+  private List < CyNode > res = new ArrayList < >();
+  private List < CyNode > nodes = new ArrayList < >();
+  private CyNode eachNode;
+  // Method from Cytoscape Filters Impl (filter-impl)
+  static void setSelectedState(CyNetwork network, Collection < ?extends CyIdentifiable > list, Boolean selected) {
+    for (CyIdentifiable edge: list) {
+      CyRow row = network.getRow(edge);
+      row.set(CyNetwork.SELECTED, selected);
+    }
+  }
 
-	public LargestConnectedComponentTask(CyNetworkView view, CyNetwork network, CySwingApplication swingApplication) {
-			this.view = view;
-			this.network = network;
-			this.swingApplication = swingApplication;
-	}
+  public LargestConnectedComponentTask(CyNetworkView view, CyNetwork network, CySwingApplication swingApplication) {
+    this.view = view;
+    this.network = network;
+    this.swingApplication = swingApplication;
+  }
 
-	public void run(TaskMonitor tm) {
-			if(view == null){
-					return;
-				}
-		// Clear previous selections of nodes and edges
-		setSelectedState(network, CyTableUtil.getNodesInState(network, CyNetwork.SELECTED, true), false);
-		setSelectedState(network, CyTableUtil.getEdgesInState(network, CyNetwork.SELECTED, true), false);
-		List<List<LayoutNode>> nestedList = new ArrayList<>();
-		// Algorithm from layout-api PartitionUtil
-		partitionList = PartitionUtil.partition(view, false, null);
-		// Save all partitions in a nested list
-		for (LayoutPartition partition: partitionList) {
-				layoutNodeList = partition.getNodeList();
-				nestedList.add(layoutNodeList);
-		}
-		// Sort the nested list and find the largest partition list
-		Collections.sort(nestedList, new Comparator<List<LayoutNode>>(){
-    		public int compare(List<LayoutNode> a1, List<LayoutNode> a2) {
-        	return a2.size() - a1.size();
-    		}
-			});
-		// Get the largest partition
-		largestNodeList = nestedList.get(0);
-		// Get the second largest partition
-		secondLargestNodeList = nestedList.get(1);
-		// Get the largest partition size
-		int largestSize = largestNodeList.size();
-		// Get the second largest partition size
-		int secondSize = secondLargestNodeList.size();
-		// Turn layoutNode into CyNode
-		for (LayoutNode layoutNode: largestNodeList) {
-				eachNode = layoutNode.getNode();
-				res.add(eachNode);
-		}
-		// Select the largest connected component
-		setSelectedState(network, res, true);
-		// Warn users if we have multiple largest components
-		if(largestSize == secondSize){
-				tm.setTitle("Warning");
-				tm.showMessage(INFO, "The largest connected component is not unique. Randomly select one of them.");
-		}
-	}
+  public void run(TaskMonitor tm) {
+    if (view == null) {
+      return;
+    }
+    // Clear previous selections of nodes and edges
+    setSelectedState(network, CyTableUtil.getNodesInState(network, CyNetwork.SELECTED, true), false);
+    setSelectedState(network, CyTableUtil.getEdgesInState(network, CyNetwork.SELECTED, true), false);
+    List < List < LayoutNode >> nestedList = new ArrayList < >();
+    // Algorithm from layout-api PartitionUtil
+    partitionList = PartitionUtil.partition(view, false, null);
+    // Save all partitions in a nested list
+    for (LayoutPartition partition: partitionList) {
+      layoutNodeList = partition.getNodeList();
+      nestedList.add(layoutNodeList);
+    }
+    // Sort the nested list and find the largest partition list
+    Collections.sort(nestedList, new Comparator < List < LayoutNode >> () {
+      public int compare(List < LayoutNode > a1, List < LayoutNode > a2) {
+        return a2.size() - a1.size();
+      }
+    });
+    // Get the largest partition
+    largestNodeList = nestedList.get(0);
+    // Get the second largest partition
+    secondLargestNodeList = nestedList.get(1);
+    // Get the largest partition size
+    int largestSize = largestNodeList.size();
+    // Get the second largest partition size
+    int secondSize = secondLargestNodeList.size();
+    // Turn layoutNode into CyNode
+    for (LayoutNode layoutNode: largestNodeList) {
+      eachNode = layoutNode.getNode();
+      res.add(eachNode);
+    }
+    // Select the largest connected component
+    setSelectedState(network, res, true);
+    // Warn users if we have multiple largest components
+    if (largestSize == secondSize) {
+      tm.setTitle("Warning");
+      tm.showMessage(INFO, "The largest connected component is not unique. Randomly select one of them.");
+    }
+  }
 }

@@ -28,11 +28,11 @@ public class LargestConnectedComponentTask extends AbstractTask {
   private CySwingApplication swingApplication;
   private CyNetworkView view;
   private CyNetwork network;
-  protected List < LayoutPartition > partitionList = null;
+  private List < LayoutPartition > partitionList = null;
   private List < LayoutNode > layoutNodeList = new ArrayList < >();
   private List < LayoutNode > secondLargestNodeList = new ArrayList < >();
   private List < LayoutNode > largestNodeList = new ArrayList < >();
-  protected ArrayList < Double > partlist = new ArrayList < >();
+  private ArrayList < Double > partlist = new ArrayList < >();
   private List < CyNode > res = new ArrayList < >();
   private List < CyNode > nodes = new ArrayList < >();
   private CyNode eachNode;

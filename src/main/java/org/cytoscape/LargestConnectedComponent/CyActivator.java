@@ -1,5 +1,19 @@
 package org.cytoscape.LargestConnectedComponent;
 
+import static org.cytoscape.work.ServiceProperties.COMMAND;
+import static org.cytoscape.work.ServiceProperties.COMMAND_DESCRIPTION;
+import static org.cytoscape.work.ServiceProperties.COMMAND_EXAMPLE_JSON;
+import static org.cytoscape.work.ServiceProperties.COMMAND_LONG_DESCRIPTION;
+import static org.cytoscape.work.ServiceProperties.COMMAND_NAMESPACE;
+import static org.cytoscape.work.ServiceProperties.COMMAND_SUPPORTS_JSON;
+import static org.cytoscape.work.ServiceProperties.ENABLE_FOR;
+import static org.cytoscape.work.ServiceProperties.ID;
+import static org.cytoscape.work.ServiceProperties.IN_MENU_BAR;
+import static org.cytoscape.work.ServiceProperties.IN_TOOL_BAR;
+import static org.cytoscape.work.ServiceProperties.MENU_GRAVITY;
+import static org.cytoscape.work.ServiceProperties.PREFERRED_MENU;
+import static org.cytoscape.work.ServiceProperties.TITLE;
+
 import java.util.Properties;
 
 import org.cytoscape.LargestConnectedComponent.LargestConnectedComponentTaskFactory;
@@ -19,8 +33,16 @@ public class CyActivator extends AbstractCyActivator {
     final CySwingApplication swingApplication = getService(bc, CySwingApplication.class);
     LargestConnectedComponentTaskFactory largestConnectedComponentTaskFactory = new LargestConnectedComponentTaskFactory(applicationManager, swingApplication);
     Properties largestConnectedComponentTaskFactoryProps = new Properties();
+    largestConnectedComponentTaskFactoryProps.clear();
     largestConnectedComponentTaskFactoryProps.setProperty("preferredMenu", "Select.Nodes");
-    largestConnectedComponentTaskFactoryProps.setProperty("title", "Select Largest Connected Component");
+    largestConnectedComponentTaskFactoryProps.setProperty("title", "Select Largest Component");
+    largestConnectedComponentTaskFactoryProps.put(COMMAND_NAMESPACE, "network");
+		largestConnectedComponentTaskFactoryProps.put(COMMAND, "select component");
+		largestConnectedComponentTaskFactoryProps.put(COMMAND_DESCRIPTION,  "Select the largest component on the current network.");
+		largestConnectedComponentTaskFactoryProps.put(COMMAND_LONG_DESCRIPTION, "Select the largest connected component on the current network.");
+		largestConnectedComponentTaskFactoryProps.put(COMMAND_EXAMPLE_JSON, "{   \"networkTitle\": \"galFiltered.sif \"}");
+		largestConnectedComponentTaskFactoryProps.put(COMMAND_SUPPORTS_JSON, "true");
+		largestConnectedComponentTaskFactoryProps.put(ENABLE_FOR, "network");
     registerService(bc, largestConnectedComponentTaskFactory, TaskFactory.class, largestConnectedComponentTaskFactoryProps);
   }
 }

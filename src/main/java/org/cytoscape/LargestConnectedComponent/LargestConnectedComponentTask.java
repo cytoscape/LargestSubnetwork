@@ -88,8 +88,8 @@ public class LargestConnectedComponentTask extends AbstractTask {
     setSelectedState(network, res, true);
     // Warn users if we have multiple largest components
     if (largestSize == secondSize) {
-      tm.setTitle("Warning");
-      tm.showMessage(INFO, "The largest connected component is not unique. Randomly select one of them.");
+      tm.setTitle("Largest connected component is not unique");
+      tm.showMessage(INFO, "There is more than one largest connected component. One was selected randomly.");
     }
   }
 }

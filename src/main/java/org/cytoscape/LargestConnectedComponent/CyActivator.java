@@ -36,6 +36,7 @@ public class CyActivator extends AbstractCyActivator {
     largestConnectedComponentTaskFactoryProps.clear();
     largestConnectedComponentTaskFactoryProps.setProperty("preferredMenu", "Select.Nodes");
     largestConnectedComponentTaskFactoryProps.setProperty("title", "Select Largest Component");
+    largestConnectedComponentTaskFactoryProps.setProperty(MENU_GRAVITY,"7.0");
     largestConnectedComponentTaskFactoryProps.put(COMMAND_NAMESPACE, "network");
 		largestConnectedComponentTaskFactoryProps.put(COMMAND, "select component");
 		largestConnectedComponentTaskFactoryProps.put(COMMAND_DESCRIPTION,  "Select the largest component on the current network.");

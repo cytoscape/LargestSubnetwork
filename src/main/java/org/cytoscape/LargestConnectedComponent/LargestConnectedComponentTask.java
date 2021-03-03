@@ -60,6 +60,7 @@ public class LargestConnectedComponentTask extends AbstractTask {
     List < List < LayoutNode >> nestedList = new ArrayList < >();
     // Algorithm from layout-api PartitionUtil
     partitionList = PartitionUtil.partition(view, false, null);
+    // Edge case: if we only have one partition
     if (partitionList.size() == 1) {
       setSelectedState(network, CyTableUtil.getNodesInState(network, CyNetwork.SELECTED, false), true);
     } else {

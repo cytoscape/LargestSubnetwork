@@ -21,12 +21,14 @@ import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyTableUtil;
 import org.cytoscape.model.CyRow;
 import org.cytoscape.model.CyIdentifiable;
+import org.cytoscape.view.model.CyNetworkViewManager;
 import org.cytoscape.command.StringToModel;
 import static org.cytoscape.work.TaskMonitor.Level.*;
 
 public class LargestConnectedComponentTask extends AbstractTask {
 
   private CyApplicationManager applicationManager;
+  private CyNetworkViewManager cynetworkviewmanager;
   private CySwingApplication swingApplication;
   private CyNetworkView view;
   private CyNetwork networks;
@@ -39,6 +41,8 @@ public class LargestConnectedComponentTask extends AbstractTask {
   private List < CyNode > res = new ArrayList < >();
   private List < CyNode > nodes = new ArrayList < >();
   private CyNode eachNode;
+  private Collection<CyNetworkView> viewCollection;
+
   @Tunable(description = "Network to select?", context="nogui",
          exampleStringValue=StringToModel.CY_NETWORK_EXAMPLE_STRING,
          longDescription=StringToModel.CY_NETWORK_LONG_DESCRIPTION)
@@ -51,11 +55,13 @@ public class LargestConnectedComponentTask extends AbstractTask {
     }
   }
 
-  public LargestConnectedComponentTask(CyNetworkView view, CyNetwork networks, CySwingApplication swingApplication, StringToModel stringToModel) {
+  public LargestConnectedComponentTask(CyApplicationManager applicationManager, CyNetworkView view, CyNetwork networks, CySwingApplication swingApplication, StringToModel stringToModel, CyNetworkViewManager cynetworkviewmanager) {
+    this.applicationManager = applicationManager;
     this.view = view;
     this.networks = networks;
     this.swingApplication = swingApplication;
     this.stringToModel = stringToModel;
+    this.cynetworkviewmanager = cynetworkviewmanager;
   }
 
   public void run(TaskMonitor tm) {
@@ -64,9 +70,14 @@ public class LargestConnectedComponentTask extends AbstractTask {
     }
     if (network == null){
       networks = networks;
+      view = view;
     }
     else {
       networks = stringToModel.getNetwork(network);
+      //applicationManager.setCurrentNetwork(networks);
+      //view = applicationManager.getCurrentNetworkView();
+      viewCollection = cynetworkviewmanager.getNetworkViews(networks);
+      view = viewCollection.iterator().next();
     }
     // Clear previous selections of nodes and edges
     setSelectedState(networks, CyTableUtil.getNodesInState(networks, CyNetwork.SELECTED, true), false);

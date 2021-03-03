@@ -43,7 +43,6 @@ public class CyActivator extends AbstractCyActivator {
 		largestConnectedComponentTaskFactoryProps.put(COMMAND, "select component");
 		largestConnectedComponentTaskFactoryProps.put(COMMAND_DESCRIPTION,  "Select the largest component on the current network.");
 		largestConnectedComponentTaskFactoryProps.put(COMMAND_LONG_DESCRIPTION, "Select the largest connected component on the current network. If largest connected component is not unique, one will be selected randomly.");
-    largestConnectedComponentTaskFactoryProps.put(COMMAND_EXAMPLE_JSON, "{   \"networkTitle\": \"galFiltered.sif (undirected)\",   \"nodeCount\": \"330\",  \"avNeighbors\": \"2.167\"}");
 		largestConnectedComponentTaskFactoryProps.put(COMMAND_SUPPORTS_JSON, "true");
 		largestConnectedComponentTaskFactoryProps.put(ENABLE_FOR, "network");
     registerService(bc, largestConnectedComponentTaskFactory, TaskFactory.class, largestConnectedComponentTaskFactoryProps);

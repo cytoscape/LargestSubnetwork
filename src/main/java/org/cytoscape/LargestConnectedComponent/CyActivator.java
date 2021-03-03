@@ -22,6 +22,7 @@ import org.cytoscape.service.util.AbstractCyActivator;
 import org.cytoscape.work.TaskFactory;
 import org.cytoscape.application.CyApplicationManager;
 import org.cytoscape.application.swing.CySwingApplication;
+import org.cytoscape.command.StringToModel;
 
 public class CyActivator extends AbstractCyActivator {
   public CyActivator() {
@@ -31,7 +32,8 @@ public class CyActivator extends AbstractCyActivator {
   public void start(BundleContext bc) {
     final CyApplicationManager applicationManager = getService(bc, CyApplicationManager.class);
     final CySwingApplication swingApplication = getService(bc, CySwingApplication.class);
-    LargestConnectedComponentTaskFactory largestConnectedComponentTaskFactory = new LargestConnectedComponentTaskFactory(applicationManager, swingApplication);
+    final StringToModel stringToModel = getService(bc, StringToModel.class);
+    LargestConnectedComponentTaskFactory largestConnectedComponentTaskFactory = new LargestConnectedComponentTaskFactory(applicationManager, swingApplication, stringToModel);
     Properties largestConnectedComponentTaskFactoryProps = new Properties();
     largestConnectedComponentTaskFactoryProps.clear();
     largestConnectedComponentTaskFactoryProps.setProperty("preferredMenu", "Select.Nodes");

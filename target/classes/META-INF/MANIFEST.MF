@@ -2,12 +2,13 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Created-By: Apache Maven Bundle Plugin
 Tool: Bnd-1.15.0
-Bnd-LastModified: 1614731558999
+Bnd-LastModified: 1614735977468
 Import-Package: org.cytoscape.application;version="[3.8,4)",org.cytoscap
- e.application.swing;version="[3.8,4)",org.cytoscape.model;version="[3.8
- ,4)",org.cytoscape.service.util;version="[3.8,4)",org.cytoscape.view.la
- yout;version="[3.8,4)",org.cytoscape.view.model;version="[3.8,4)",org.c
- ytoscape.work;version="[3.8,4)",org.osgi.framework;version="[1.5,2)"
+ e.application.swing;version="[3.8,4)",org.cytoscape.command;version="[3
+ .8,4)",org.cytoscape.model;version="[3.8,4)",org.cytoscape.service.util
+ ;version="[3.8,4)",org.cytoscape.view.layout;version="[3.8,4)",org.cyto
+ scape.view.model;version="[3.8,4)",org.cytoscape.work;version="[3.8,4)"
+ ,org.osgi.framework;version="[1.5,2)"
 Bundle-Name: Largest Connected Subnetwork
 Bundle-Activator: org.cytoscape.LargestConnectedComponent.CyActivator
 Bundle-SymbolicName: org.cytoscape.LargestConnectedComponent

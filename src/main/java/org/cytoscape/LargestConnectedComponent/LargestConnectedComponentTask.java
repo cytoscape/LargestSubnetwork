@@ -60,6 +60,9 @@ public class LargestConnectedComponentTask extends AbstractTask {
     List < List < LayoutNode >> nestedList = new ArrayList < >();
     // Algorithm from layout-api PartitionUtil
     partitionList = PartitionUtil.partition(view, false, null);
+    if (partitionList.size() == 1) {
+      setSelectedState(network, CyTableUtil.getNodesInState(network, CyNetwork.SELECTED, false), true);
+    } else {
     // Save all partitions in a nested list
     for (LayoutPartition partition: partitionList) {
       layoutNodeList = partition.getNodeList();
@@ -90,6 +93,7 @@ public class LargestConnectedComponentTask extends AbstractTask {
     if (largestSize == secondSize) {
       tm.setTitle("Largest connected component is not unique");
       tm.showMessage(INFO, "There is more than one largest connected component. One was selected randomly.");
+      }
     }
   }
 }

@@ -68,10 +68,8 @@ public class LargestConnectedComponentTask extends AbstractTask {
     if (view == null) {
       return;
     }
-    // Clear previous selections of nodes and edges
-    setSelectedState(networks, CyTableUtil.getNodesInState(networks, CyNetwork.SELECTED, true), false);
-    setSelectedState(networks, CyTableUtil.getEdgesInState(networks, CyNetwork.SELECTED, true), false);
-    
+
+
     if (network == null){
       networks = networks;
       view = view;
@@ -83,6 +81,9 @@ public class LargestConnectedComponentTask extends AbstractTask {
       viewCollection = cynetworkviewmanager.getNetworkViews(networks);
       view = viewCollection.iterator().next();
     }
+    // Clear previous selections of nodes and edges
+    setSelectedState(networks, CyTableUtil.getNodesInState(networks, CyNetwork.SELECTED, true), false);
+    setSelectedState(networks, CyTableUtil.getEdgesInState(networks, CyNetwork.SELECTED, true), false);
     List < List < LayoutNode >> nestedList = new ArrayList < >();
     // Algorithm from layout-api PartitionUtil
     partitionList = PartitionUtil.partition(view, false, null);

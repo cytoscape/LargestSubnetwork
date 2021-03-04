@@ -15,6 +15,7 @@ import org.cytoscape.application.swing.CySwingApplication;
 import org.cytoscape.work.TaskMonitor;
 import org.cytoscape.work.AbstractTask;
 import org.cytoscape.work.Tunable;
+import org.cytoscape.work.TunableValidator;
 import org.cytoscape.work.json.JSONResult;
 import org.cytoscape.work.ObservableTask;
 import org.cytoscape.view.model.CyNetworkView;
@@ -32,7 +33,7 @@ import org.cytoscape.service.util.CyServiceRegistrar;
 import org.cytoscape.util.json.CyJSONUtil;
 import static org.cytoscape.work.TaskMonitor.Level.*;
 
-public class LargestConnectedComponentTask extends AbstractTask implements ObservableTask{
+public class LargestConnectedComponentTask extends AbstractTask implements TunableValidator, ObservableTask{
   private CyServiceRegistrar serviceRegistrar;
   private CyApplicationManager applicationManager;
   private CyNetworkViewManager cynetworkviewmanager;
@@ -46,7 +47,6 @@ public class LargestConnectedComponentTask extends AbstractTask implements Obser
   private List < LayoutNode > largestNodeList = new ArrayList < >();
   private ArrayList < Double > partlist = new ArrayList < >();
   private List < CyNode > res = new ArrayList < >();
-  private List < CyNode > nodes = new ArrayList < >();
   private CyNode eachNode;
   private Collection<CyNetworkView> viewCollection;
 
@@ -71,12 +71,11 @@ public class LargestConnectedComponentTask extends AbstractTask implements Obser
     this.cynetworkviewmanager = cynetworkviewmanager;
     this.serviceRegistrar = serviceRegistrar;
   }
-  @Override
+
   public void run(TaskMonitor tm) {
     if (view == null) {
       return;
     }
-
 
     if (network == null){
       networks = networks;
@@ -137,19 +136,56 @@ public class LargestConnectedComponentTask extends AbstractTask implements Obser
             }
           }
       }
+
       @Override
-      public List<Class<?>> getResultClasses() {
-        return Arrays.asList(String.class, JSONResult.class);
+      public ValidationState getValidationState(Appendable errMsg) {
+        return ValidationState.OK;
       }
 
-      @SuppressWarnings({ "unchecked" })
-      @Override
-      public <R> R getResults(Class<? extends R> type) {
-        if (type.equals(String.class)) {
-          return (R)res;
-        } else if (type.equals(JSONResult.class)) {
-          return (R)res;
-        }
-          return null;
-    }
+      public Object getResults(Class type) {
+    		List<CyIdentifiable> identifiables = new ArrayList<>();
+    		if (res != null)
+    			identifiables.addAll(res);
+    		if (type.equals(List.class)) {
+    			return identifiables;
+    		} else if (type.equals(String.class)){
+    			if (res.size() == 0)
+    				return "<none>";
+    			String ret = "";
+    			if (res != null && res.size() > 0) {
+    				ret += "Nodes selected: \n";
+    				for (CyNode node: res) {
+    					ret += "   "+networks.getRow(node).get(CyNetwork.NAME, String.class)+"\n";
+    				}
+    			}
+    			return ret;
+    		}  else if (type.equals(JSONResult.class)) {
+    			JSONResult resJson = () -> {
+    				if (identifiables == null || identifiables.size() == 0) {
+    					return "{}";
+    				} else {
+    					CyJSONUtil cyJSONUtil = serviceRegistrar.getService(CyJSONUtil.class);
+    					String result = "{\"nodes\":";
+
+    					if (res == null || res.size() == 0)
+    						result += "[]";
+    					else
+    						result += cyJSONUtil.cyIdentifiablesToJson(res);
+
+
+
+    					return result + "}";
+    				}
+    			};
+
+    			return resJson;
+    		}
+
+    		return identifiables;
+    	}
+
+    	@Override
+    	public List<Class<?>> getResultClasses() {
+    		return Arrays.asList(String.class, List.class, JSONResult.class);
+    	}
 }

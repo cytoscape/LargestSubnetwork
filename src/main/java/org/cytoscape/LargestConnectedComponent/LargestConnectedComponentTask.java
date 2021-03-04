@@ -2,9 +2,12 @@ package org.cytoscape.LargestConnectedComponent;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import javax.swing.JFrame;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Comparator;
 
 import org.cytoscape.application.CyApplicationManager;
@@ -12,6 +15,8 @@ import org.cytoscape.application.swing.CySwingApplication;
 import org.cytoscape.work.TaskMonitor;
 import org.cytoscape.work.AbstractTask;
 import org.cytoscape.work.Tunable;
+import org.cytoscape.work.json.JSONResult;
+import org.cytoscape.work.ObservableTask;
 import org.cytoscape.view.model.CyNetworkView;
 import org.cytoscape.view.layout.PartitionUtil;
 import org.cytoscape.view.layout.LayoutPartition;
@@ -23,10 +28,12 @@ import org.cytoscape.model.CyRow;
 import org.cytoscape.model.CyIdentifiable;
 import org.cytoscape.view.model.CyNetworkViewManager;
 import org.cytoscape.command.StringToModel;
+import org.cytoscape.service.util.CyServiceRegistrar;
+import org.cytoscape.util.json.CyJSONUtil;
 import static org.cytoscape.work.TaskMonitor.Level.*;
 
-public class LargestConnectedComponentTask extends AbstractTask {
-
+public class LargestConnectedComponentTask extends AbstractTask implements ObservableTask{
+  private CyServiceRegistrar serviceRegistrar;
   private CyApplicationManager applicationManager;
   private CyNetworkViewManager cynetworkviewmanager;
   private CySwingApplication swingApplication;
@@ -55,15 +62,16 @@ public class LargestConnectedComponentTask extends AbstractTask {
     }
   }
 
-  public LargestConnectedComponentTask(CyApplicationManager applicationManager, CyNetworkView view, CyNetwork networks, CySwingApplication swingApplication, StringToModel stringToModel, CyNetworkViewManager cynetworkviewmanager) {
+  public LargestConnectedComponentTask(CyApplicationManager applicationManager, CyNetworkView view, CyNetwork networks, CySwingApplication swingApplication, StringToModel stringToModel, CyNetworkViewManager cynetworkviewmanager, CyServiceRegistrar serviceRegistrar) {
     this.applicationManager = applicationManager;
     this.view = view;
     this.networks = networks;
     this.swingApplication = swingApplication;
     this.stringToModel = stringToModel;
     this.cynetworkviewmanager = cynetworkviewmanager;
+    this.serviceRegistrar = serviceRegistrar;
   }
-
+  @Override
   public void run(TaskMonitor tm) {
     if (view == null) {
       return;
@@ -87,6 +95,11 @@ public class LargestConnectedComponentTask extends AbstractTask {
     List < List < LayoutNode >> nestedList = new ArrayList < >();
     // Algorithm from layout-api PartitionUtil
     partitionList = PartitionUtil.partition(view, false, null);
+    // Edge case: if there is no node, stop
+    if (partitionList.size() == 0) {
+      tm.showMessage(WARN, "Empty network!");
+      return;
+    }
     // Edge case: if we only have one partition, select all nodes
     if (partitionList.size() == 1) {
       setSelectedState(networks, CyTableUtil.getNodesInState(networks, CyNetwork.SELECTED, false), true);
@@ -124,4 +137,19 @@ public class LargestConnectedComponentTask extends AbstractTask {
             }
           }
       }
+      @Override
+      public List<Class<?>> getResultClasses() {
+        return Arrays.asList(String.class, JSONResult.class);
+      }
+
+      @SuppressWarnings({ "unchecked" })
+      @Override
+      public <R> R getResults(Class<? extends R> type) {
+        if (type.equals(String.class)) {
+          return (R)res;
+        } else if (type.equals(JSONResult.class)) {
+          return (R)res;
+        }
+          return null;
+    }
 }

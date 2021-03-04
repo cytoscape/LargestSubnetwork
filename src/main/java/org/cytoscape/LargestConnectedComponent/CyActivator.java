@@ -24,6 +24,8 @@ import org.cytoscape.application.CyApplicationManager;
 import org.cytoscape.application.swing.CySwingApplication;
 import org.cytoscape.command.StringToModel;
 import org.cytoscape.view.model.CyNetworkViewManager;
+import org.cytoscape.service.util.CyServiceRegistrar;
+
 
 public class CyActivator extends AbstractCyActivator {
   public CyActivator() {
@@ -35,7 +37,8 @@ public class CyActivator extends AbstractCyActivator {
     final CySwingApplication swingApplication = getService(bc, CySwingApplication.class);
     final CyNetworkViewManager cynetworkviewmanager = getService(bc, CyNetworkViewManager.class);
     final StringToModel stringToModel = getService(bc, StringToModel.class);
-    LargestConnectedComponentTaskFactory largestConnectedComponentTaskFactory = new LargestConnectedComponentTaskFactory(applicationManager, swingApplication, stringToModel, cynetworkviewmanager);
+    final CyServiceRegistrar serviceRegistrar = getService(bc, CyServiceRegistrar.class);
+    LargestConnectedComponentTaskFactory largestConnectedComponentTaskFactory = new LargestConnectedComponentTaskFactory(applicationManager, swingApplication, stringToModel, cynetworkviewmanager, serviceRegistrar);
     Properties largestConnectedComponentTaskFactoryProps = new Properties();
     largestConnectedComponentTaskFactoryProps.clear();
     largestConnectedComponentTaskFactoryProps.setProperty("preferredMenu", "Select.Nodes");

@@ -1,4 +1,4 @@
-package org.cytoscape.LargestConnectedComponent;
+package org.cytoscape.LargestSubnetwork;
 
 import org.cytoscape.work.AbstractTaskFactory;
 import org.cytoscape.work.TaskIterator;

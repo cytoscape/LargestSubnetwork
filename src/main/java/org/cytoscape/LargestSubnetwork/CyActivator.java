@@ -1,4 +1,4 @@
-package org.cytoscape.LargestConnectedComponent;
+package org.cytoscape.LargestSubnetwork;
 
 import static org.cytoscape.work.ServiceProperties.COMMAND;
 import static org.cytoscape.work.ServiceProperties.COMMAND_DESCRIPTION;
@@ -16,7 +16,7 @@ import static org.cytoscape.work.ServiceProperties.TITLE;
 
 import java.util.Properties;
 
-import org.cytoscape.LargestConnectedComponent.LargestConnectedComponentTaskFactory;
+import org.cytoscape.LargestSubnetwork.LargestConnectedComponentTaskFactory;
 import org.osgi.framework.BundleContext;
 import org.cytoscape.service.util.AbstractCyActivator;
 import org.cytoscape.work.TaskFactory;
@@ -42,12 +42,12 @@ public class CyActivator extends AbstractCyActivator {
     Properties largestConnectedComponentTaskFactoryProps = new Properties();
     largestConnectedComponentTaskFactoryProps.clear();
     largestConnectedComponentTaskFactoryProps.setProperty("preferredMenu", "Select.Nodes");
-    largestConnectedComponentTaskFactoryProps.setProperty("title", "Largest Connected Component");
+    largestConnectedComponentTaskFactoryProps.setProperty("title", "Largest Subnetwork");
     largestConnectedComponentTaskFactoryProps.setProperty(MENU_GRAVITY,"7.0");
     largestConnectedComponentTaskFactoryProps.put(COMMAND_NAMESPACE, "network");
-		largestConnectedComponentTaskFactoryProps.put(COMMAND, "select component");
-		largestConnectedComponentTaskFactoryProps.put(COMMAND_DESCRIPTION,  "Select the largest connected component in a network");
-		largestConnectedComponentTaskFactoryProps.put(COMMAND_LONG_DESCRIPTION, "Select the largest connected component in a network. If there is a tie for the largest connected component, one will be selected randomly.");
+		largestConnectedComponentTaskFactoryProps.put(COMMAND, "largest subnetwork");
+		largestConnectedComponentTaskFactoryProps.put(COMMAND_DESCRIPTION,  "Select the largest subnetwork in a network");
+		largestConnectedComponentTaskFactoryProps.put(COMMAND_LONG_DESCRIPTION, "Select the largest connected subnetwork in a network. If there is a tie for the largest connected component, one will be selected randomly.");
 		largestConnectedComponentTaskFactoryProps.put(COMMAND_SUPPORTS_JSON, "true");
 		largestConnectedComponentTaskFactoryProps.put(ENABLE_FOR, "network");
     registerService(bc, largestConnectedComponentTaskFactory, TaskFactory.class, largestConnectedComponentTaskFactoryProps);

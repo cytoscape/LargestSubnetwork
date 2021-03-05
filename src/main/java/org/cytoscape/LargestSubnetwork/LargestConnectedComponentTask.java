@@ -1,4 +1,4 @@
-package org.cytoscape.LargestConnectedComponent;
+package org.cytoscape.LargestSubnetwork;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -166,21 +166,15 @@ public class LargestConnectedComponentTask extends AbstractTask implements Tunab
     				} else {
     					CyJSONUtil cyJSONUtil = serviceRegistrar.getService(CyJSONUtil.class);
     					String result = "{\"nodes\":";
-
     					if (res == null || res.size() == 0)
     						result += "[]";
     					else
     						result += cyJSONUtil.cyIdentifiablesToJson(res);
-
-
-
     					return result + "}";
     				}
     			};
-
     			return resJson;
     		}
-
     		return identifiables;
     	}
 

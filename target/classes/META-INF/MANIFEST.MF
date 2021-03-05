@@ -1,12 +1,12 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1614977072722
+Bnd-LastModified: 1614977681406
 Build-Jdk: 11.0.9.1
 Built-By: yxin
 Bundle-Activator: org.cytoscape.LargestSubnetwork.CyActivator
 Bundle-ManifestVersion: 2
 Bundle-Name: Largest Subnetwork
 Bundle-SymbolicName: org.cytoscape.LargestSubnetwork
-Bundle-Version: 1.0
+Bundle-Version: 1.1
 Created-By: Apache Maven Bundle Plugin
 Import-Package: org.cytoscape.application;version="[3.8,4)",org.cytoscap
  e.application.swing;version="[3.8,4)",org.cytoscape.command;version="[3

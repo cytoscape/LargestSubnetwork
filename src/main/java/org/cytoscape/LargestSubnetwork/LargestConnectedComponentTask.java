@@ -102,6 +102,7 @@ public class LargestConnectedComponentTask extends AbstractTask implements Tunab
     // Edge case: if we only have one partition, select all nodes
     if (partitionList.size() == 1) {
       setSelectedState(networks, CyTableUtil.getNodesInState(networks, CyNetwork.SELECTED, false), true);
+      res = CyTableUtil.getNodesInState(networks, CyNetwork.SELECTED, true);
     } else {
             // Save all partitions in a nested list
             for (LayoutPartition partition: partitionList) {

@@ -14,7 +14,7 @@
 	<groupId>org.cytoscape</groupId>
 	<artifactId>LargestSubnetwork</artifactId>
 	<packaging>bundle</packaging>
-	<version>1.1</version>
+	<version>1.2</version>
 
 	<name>Largest Subnetwork</name>
 

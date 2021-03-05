@@ -1,3 +1,3 @@
-# LargestConnectedComponent App for Cytoscape
+# Largest Subnetwork App for Cytoscape
 
-LargestConnectedComponent App is a Cytoscape app. It provides the functionality to select the largest connected component in the current network.
+Largest Subnetwork App is a Cytoscape app. It provides the functionality to select the largest connected subnetwork in the current network.

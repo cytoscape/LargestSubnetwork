@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1614986959629
+Bnd-LastModified: 1615333606182
 Build-Jdk: 11.0.9.1
 Built-By: yxin
 Bundle-Activator: org.cytoscape.LargestSubnetwork.CyActivator
@@ -11,9 +11,10 @@ Created-By: Apache Maven Bundle Plugin
 Import-Package: org.cytoscape.application;version="[3.8,4)",org.cytoscap
  e.application.swing;version="[3.8,4)",org.cytoscape.command;version="[3
  .8,4)",org.cytoscape.model;version="[3.8,4)",org.cytoscape.service.util
- ;version="[3.8,4)",org.cytoscape.util.json;version="[3.8,4)",org.cytosc
- ape.view.layout;version="[3.8,4)",org.cytoscape.view.model;version="[3.
- 8,4)",org.cytoscape.work;version="[3.8,4)",org.cytoscape.work.json;vers
- ion="[3.8,4)",org.osgi.framework;version="[1.5,2)"
+ ;version="[3.8,4)",org.cytoscape.task.create;version="[3.8,4)",org.cyto
+ scape.util.json;version="[3.8,4)",org.cytoscape.view.layout;version="[3
+ .8,4)",org.cytoscape.view.model;version="[3.8,4)",org.cytoscape.work;ve
+ rsion="[3.8,4)",org.cytoscape.work.json;version="[3.8,4)",org.cytoscape
+ .work.swing;version="[3.8,4)",org.osgi.framework;version="[1.5,2)"
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
 Tool: Bnd-3.0.0.201509101326

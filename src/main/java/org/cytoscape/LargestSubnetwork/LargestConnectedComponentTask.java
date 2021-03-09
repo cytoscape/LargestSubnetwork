@@ -31,6 +31,8 @@ import org.cytoscape.view.model.CyNetworkViewManager;
 import org.cytoscape.command.StringToModel;
 import org.cytoscape.service.util.CyServiceRegistrar;
 import org.cytoscape.util.json.CyJSONUtil;
+import org.cytoscape.task.create.NewNetworkSelectedNodesOnlyTaskFactory;
+import org.cytoscape.work.swing.DialogTaskManager;
 import static org.cytoscape.work.TaskMonitor.Level.*;
 
 public class LargestConnectedComponentTask extends AbstractTask implements TunableValidator, ObservableTask{
@@ -54,6 +56,11 @@ public class LargestConnectedComponentTask extends AbstractTask implements Tunab
          exampleStringValue=StringToModel.CY_NETWORK_EXAMPLE_STRING,
          longDescription=StringToModel.CY_NETWORK_LONG_DESCRIPTION)
   public String network = null;
+
+  @Tunable(description = "Create subnetwork?", context="nogui", exampleStringValue="false",
+          longDescription="If true, new subnetwork will be created.")
+  public Boolean createSubnetwork = false;
+
   // Method from Cytoscape Filters Impl (filter-impl)
   static void setSelectedState(CyNetwork networks, Collection < ?extends CyIdentifiable > list, Boolean selected) {
     for (CyIdentifiable edge: list) {
@@ -136,6 +143,11 @@ public class LargestConnectedComponentTask extends AbstractTask implements Tunab
               tm.showMessage(INFO, "There is more than one largest connected component. One was selected randomly.");
             }
           }
+    if (createSubnetwork) {
+      DialogTaskManager taskManager = serviceRegistrar.getService(DialogTaskManager.class);
+      NewNetworkSelectedNodesOnlyTaskFactory factory = serviceRegistrar.getService(NewNetworkSelectedNodesOnlyTaskFactory.class);
+      taskManager.execute(factory.createTaskIterator(networks));
+        }
       }
 
       @Override

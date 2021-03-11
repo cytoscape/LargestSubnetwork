@@ -45,11 +45,15 @@ public class LargestConnectedComponentTask extends AbstractTask implements Tunab
   private StringToModel stringToModel;
   private List < LayoutPartition > partitionList = null;
   private List < LayoutNode > layoutNodeList = new ArrayList < >();
+  private List < LayoutNode > tempNodeList = new ArrayList < >();
   private List < LayoutNode > secondLargestNodeList = new ArrayList < >();
   private List < LayoutNode > largestNodeList = new ArrayList < >();
   private ArrayList < Double > partlist = new ArrayList < >();
   private List < CyNode > res = new ArrayList < >();
+  private List < CyNode > temp = new ArrayList < >();
+  private List < CyNode > selectNode = new ArrayList < >();
   private CyNode eachNode;
+  private CyNode startNode;
   private Collection<CyNetworkView> viewCollection;
 
   @Tunable(description = "Network to select?", context="nogui",
@@ -60,6 +64,10 @@ public class LargestConnectedComponentTask extends AbstractTask implements Tunab
   @Tunable(description = "Create subnetwork?", context="nogui", exampleStringValue="false",
           longDescription="If true, new subnetwork will be created.")
   public Boolean createSubnetwork = false;
+
+  @Tunable(description = "Must contain this node?", context="nogui", exampleStringValue="417",
+          longDescription="Selects a node by name, or, if the parameter has the prefix suid:, selects a node by SUID.")
+  public String containNode = null;
 
   // Method from Cytoscape Filters Impl (filter-impl)
   static void setSelectedState(CyNetwork networks, Collection < ?extends CyIdentifiable > list, Boolean selected) {
@@ -116,6 +124,7 @@ public class LargestConnectedComponentTask extends AbstractTask implements Tunab
               layoutNodeList = partition.getNodeList();
               nestedList.add(layoutNodeList);
             }
+            if (containNode == null){
             // Sort the nested list and find the largest partition list
             Collections.sort(nestedList, new Comparator < List < LayoutNode >> () {
               public int compare(List < LayoutNode > a1, List < LayoutNode > a2) {
@@ -142,6 +151,26 @@ public class LargestConnectedComponentTask extends AbstractTask implements Tunab
               tm.setTitle("Largest connected component is not unique");
               tm.showMessage(INFO, "There is more than one largest connected component. One was selected randomly.");
             }
+          } else {
+            selectNode = stringToModel.getNodeList(networks, containNode);
+            startNode = selectNode.get(0);
+            List < CyNode > tempList = new ArrayList < >();
+            search:{
+              for (List < LayoutNode > tempNodeList:nestedList){
+                for (LayoutNode layoutNode:tempNodeList){
+                  eachNode = layoutNode.getNode();
+                  tempList.add(eachNode);
+                }
+                if (tempList.contains(startNode)) {
+                  res = tempList;
+                  break search;
+                } else {
+                  tempList.clear();
+                }
+              }
+            }
+            setSelectedState(networks, res, true);
+          }
           }
     if (createSubnetwork) {
       DialogTaskManager taskManager = serviceRegistrar.getService(DialogTaskManager.class);

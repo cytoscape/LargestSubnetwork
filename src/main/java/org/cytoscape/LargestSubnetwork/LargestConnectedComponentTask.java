@@ -65,7 +65,7 @@ public class LargestConnectedComponentTask extends AbstractTask implements Tunab
           longDescription="If true, new subnetwork will be created.")
   public Boolean createSubnetwork = false;
 
-  @Tunable(description = "Must contain this node?", context="nogui", exampleStringValue="417",
+  @Tunable(description = "Must contain this node?", context="nogui", exampleStringValue="YMR146C",
           longDescription="Selects a node by name, or, if the parameter has the prefix suid:, selects a node by SUID.")
   public String containNode = null;
 

@@ -149,12 +149,17 @@ public class LargestConnectedComponentTask extends AbstractTask implements Tunab
             // Warn users if we have multiple largest components
             if (largestSize == secondSize) {
               tm.setTitle("Largest connected component is not unique");
-              tm.showMessage(INFO, "There is more than one largest connected component. One was selected randomly.");
+              tm.showMessage(WARN, "There is more than one largest connected component. One was selected randomly.");
             }
           } else {
             selectNode = stringToModel.getNodeList(networks, includesNode);
+            if (selectNode.size() == 0) {
+            tm.showMessage(ERROR, "No nodes found. Please enter correct node.");
+            return;
+            }
             if (selectNode.size() != 1) {
-            tm.showMessage(WARN, "Only one node can be included. Please only include one node.");
+            tm.showMessage(ERROR, "Only one node can be included. Please only enter one node.");
+            return;
             }
             startNode = selectNode.get(0);
             List < CyNode > tempList = new ArrayList < >();

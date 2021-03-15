@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1615448728821
+Bnd-LastModified: 1615845446553
 Build-Jdk: 11.0.9.1
 Built-By: yxin
 Bundle-Activator: org.cytoscape.LargestSubnetwork.CyActivator

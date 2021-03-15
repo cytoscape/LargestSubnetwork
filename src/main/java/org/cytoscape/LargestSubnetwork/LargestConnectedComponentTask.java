@@ -65,9 +65,9 @@ public class LargestConnectedComponentTask extends AbstractTask implements Tunab
           longDescription="If true, new subnetwork will be created.")
   public Boolean createSubnetwork = false;
 
-  @Tunable(description = "Must contain this node?", context="nogui", exampleStringValue="YMR146C",
+  @Tunable(description = "Must contain this node?", context="nogui", exampleStringValue="suid:114",
           longDescription="Selects a node by name, or, if the parameter has the prefix suid:, selects a node by SUID.")
-  public String containNode = null;
+  public String includesNode = null;
 
   // Method from Cytoscape Filters Impl (filter-impl)
   static void setSelectedState(CyNetwork networks, Collection < ?extends CyIdentifiable > list, Boolean selected) {
@@ -124,7 +124,7 @@ public class LargestConnectedComponentTask extends AbstractTask implements Tunab
               layoutNodeList = partition.getNodeList();
               nestedList.add(layoutNodeList);
             }
-            if (containNode == null){
+            if (includesNode == null){
             // Sort the nested list and find the largest partition list
             Collections.sort(nestedList, new Comparator < List < LayoutNode >> () {
               public int compare(List < LayoutNode > a1, List < LayoutNode > a2) {
@@ -152,7 +152,10 @@ public class LargestConnectedComponentTask extends AbstractTask implements Tunab
               tm.showMessage(INFO, "There is more than one largest connected component. One was selected randomly.");
             }
           } else {
-            selectNode = stringToModel.getNodeList(networks, containNode);
+            selectNode = stringToModel.getNodeList(networks, includesNode);
+            if (selectNode.size() != 1) {
+            tm.showMessage(WARN, "Only one node can be included. Please only include one node.");
+            }
             startNode = selectNode.get(0);
             List < CyNode > tempList = new ArrayList < >();
             search:{
